@@ -3,15 +3,20 @@ package resources;
 import javax.swing.*;
 import java.awt.*;
 
-public class inGame extends JFrame {
+/**
+ * This class is used for ...
+ * @autor Esteban Andres Espinosa Aragon (espinosa.esteban@correounivalle.edu.co
+ * @version v.1.0.0 date:21/03/2023
+ */
+public class vGameRules extends JFrame {
 
     private Header headerProject;
 
     /**
      * Constructor of GUI class
      */
-    public inGame(){
-        initGUI();
+    public vGameRules(){
+        initGUIRules();
 
         //Default JFrame configuration
         this.setTitle("Geek Out Masters");
@@ -27,7 +32,7 @@ public class inGame extends JFrame {
      * This method is used to set up the default JComponent Configuration,
      * create Listener and control Objects used for the GUI class
      */
-    private void initGUI() {
+    private void initGUIRules() {
         //Set up JFrame Container's Layout
         //Create Listener Object and Control Object
         //Set up JComponents
@@ -50,7 +55,7 @@ public class inGame extends JFrame {
     /**
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
-    private class Escucha {
+    private class listener {
 
     }
 }
