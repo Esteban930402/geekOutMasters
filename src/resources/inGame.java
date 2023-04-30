@@ -5,8 +5,8 @@ import java.awt.*;
 
 public class inGame extends JFrame {
 
-    private Header headerProject;
 
+    public JPanel ventana,dadosActivos,dadosInactivos,puntaje,dadosUtilizados;
     /**
      * Constructor of GUI class
      */
@@ -31,9 +31,26 @@ public class inGame extends JFrame {
         //Set up JFrame Container's Layout
         //Create Listener Object and Control Object
         //Set up JComponents
-        headerProject = new Header("Header ...", Color.BLACK);
+        setLayout(new GridLayout(4,4));
 
-        this.add(headerProject,BorderLayout.NORTH); //Change this line if you change JFrame Container's Layout
+        this.ventana = new JPanel();
+        ventana.setLayout(new GridLayout(2,2));
+        this.dadosActivos=new JPanel();
+        dadosActivos.setBackground(Color.BLACK);
+        this.dadosInactivos= new JPanel();
+        dadosInactivos.setBackground(Color.white);
+        this.puntaje = new JPanel();
+        puntaje.setBackground(Color.red);
+        this.dadosUtilizados=new JPanel();
+        dadosUtilizados.setBackground(Color.BLUE);
+
+        this.ventana.add(this.dadosActivos);
+        this.ventana.add(this.dadosInactivos);
+        this.ventana.add(this.puntaje);
+        this.ventana.add(this.dadosUtilizados);
+
+        setContentPane(ventana);
+
     }
 
     /**

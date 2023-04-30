@@ -1,7 +1,12 @@
 package resources;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 /**
  * This class is used for ...
@@ -10,7 +15,12 @@ import java.awt.*;
  */
 public class vGameRules extends JFrame {
 
-    private Header headerProject;
+    public Image backgroundTest;
+    public JPanel backgroundPanel;
+
+    public JButton mainMenu;
+
+    //public Thread hilo;
 
     /**
      * Constructor of GUI class
@@ -22,7 +32,7 @@ public class vGameRules extends JFrame {
         this.setTitle("Geek Out Masters");
         this.setSize(1400,1080);
         //this.pack();
-        this.setResizable(true);
+        this.setResizable(false);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,14 +43,37 @@ public class vGameRules extends JFrame {
      * create Listener and control Objects used for the GUI class
      */
     private void initGUIRules() {
-        //Set up JFrame Container's Layout
-        //Create Listener Object and Control Object
-        //Set up JComponents
-        headerProject = new Header("Header ...", Color.BLACK);
 
-        this.add(headerProject,BorderLayout.NORTH); //Change this line if you change JFrame Container's Layout
+
+        backgroundPanel = new JPanel(){
+            protected void paintComponent(Graphics g){
+                super.paintComponent(g);
+                if(backgroundTest!=null){
+                    //int x = (getWidth()-backgroundTest.getWidth(null))/2;
+                    //int y = (getHeight()-backgroundTest.getHeight(null))/2;
+                    g.drawImage(backgroundTest,0,0,getWidth(),getHeight(),null);
+                }
+
+            }
+        };
+        backgroundPanel.setPreferredSize(new Dimension(1400,1080));
+
+        //Creacion de hilo
+
+        Thread hilo= new Thread(){
+            @Override
+            public void run(){
+                try {
+                    backgroundTest= ImageIO.read(getClass().getResource("/resources/Rules.jpg"));
+                    backgroundPanel.repaint();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        hilo.start();
+        getContentPane().add(backgroundPanel);
     }
-
     /**
      * Main process of the Java program
      * @param args Object used in order to send input data from command line when

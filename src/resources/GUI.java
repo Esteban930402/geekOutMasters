@@ -1,16 +1,16 @@
 package resources;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;import java.awt.Graphics;
-import java.awt.Dimension;
+import javax.swing.JPanel;
 import javax.swing.JFrame;
-import java.awt.EventQueue;
+
 
 /**
  * This class is used for ...
@@ -19,12 +19,13 @@ import java.awt.EventQueue;
  */
 public class GUI extends JFrame {
 
-
+    public ImageIcon principalBackgroundImage;
+    public JLabel backgroundImage;
     private JButton startGame,gameRules;
     private Header headerProject;
     public JPanel containerButtonsV1,ventana;
 
-   /* public void paint(Graphics g){
+   /*public void paint(Graphics g){
         Dimension dimension=this.getSize();
         ImageIcon icon = new ImageIcon(getClass().getResource("/resources/Fondo.jpg"));
 
@@ -45,10 +46,10 @@ public class GUI extends JFrame {
         //backgroundImage = new ImageIcon(getClass().getResource("/resources/Fondo.jpg")).getImage();
         //Default JFrame configuration
         this.setTitle("Geek Out Masters");
-        this.setSize(1400,1080);
+        this.setSize(1400,920);
         this.getContentPane();
         //this.pack();
-        this.setResizable(true);
+        this.setResizable(false);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,32 +64,44 @@ public class GUI extends JFrame {
      */
     private void initGUI() {
 
-        this.listener=new Listener();
+        this.listener = new Listener();
+
+
 
         this.startGame = new JButton("START GAME");
         this.startGame.setOpaque(true);
         this.startGame.setBorder(null);
-       // this.startGame.setSize(50,50);
+        this.startGame.setBounds(700,450,100,30);
 
 
         this.gameRules = new JButton("GAME RULES");
         this.gameRules.setOpaque(true);
         this.gameRules.setBorder(null);
-        //this.gameRules.setSize(50,50);
+        this.gameRules.setBounds(700,500,100,30);
+
+        getContentPane().setLayout(null);
+        getContentPane().add(startGame);
+        getContentPane().add(gameRules);
 
 
-        this.ventana= new JPanel();
+       /* this.ventana= new JPanel();
         this.containerButtonsV1=new JPanel();
+
+        this.ventana.setLayout(new BorderLayout());
+        this.principalBackgroundImage = new ImageIcon("/resources/Fondo.jpg");
+        this.backgroundImage = new JLabel(principalBackgroundImage);
+       // this.ventana.add(backgroundImage,BorderLayout.CENTER);
+
 
         this.containerButtonsV1.add(this.gameRules);
         this.containerButtonsV1.add(this.startGame);
-        this.ventana.add(this.containerButtonsV1);
-
+        this.containerButtonsV1.add(this.backgroundImage);
+        this.ventana.add(this.containerButtonsV1, BorderLayout.SOUTH);
+        */
         this.gameRules.addActionListener(this.listener);
         this.startGame.addActionListener(this.listener);
-        this.gameRules.addMouseListener(this.listener);
 
-        this.add(this.ventana,"Center");
+        //setContentPane(ventana);
 
     }
 
