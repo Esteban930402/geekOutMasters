@@ -5,20 +5,24 @@ import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
  * This class is used for ...
  * @autor Esteban Andres Espinosa Aragon (espinosa.esteban@correounivalle.edu.co
- * @version v.1.0.0 date:21/03/2023
+ * @version v.1.0.0 date:30/04/2023
  */
 public class vGameRules extends JFrame {
 
     public Image backgroundTest;
-    public JPanel backgroundPanel;
+    public JPanel backgroundPanel,buttonPanel;
 
-    public JButton mainMenu;
+    public JButton mainMenu,rulesPart2;
+
+    public listener listener;
 
     //public Thread hilo;
 
@@ -27,7 +31,7 @@ public class vGameRules extends JFrame {
      */
     public vGameRules(){
         initGUIRules();
-
+        setIconImage(new ImageIcon(getClass().getResource("/resources/Imagen1.png")).getImage());
         //Default JFrame configuration
         this.setTitle("Geek Out Masters");
         this.setSize(1400,1080);
@@ -72,6 +76,22 @@ public class vGameRules extends JFrame {
             }
         };
         hilo.start();
+        this.listener = new listener();
+        this.buttonPanel = new JPanel();
+        this.buttonPanel.setLayout(new BorderLayout());
+        this.mainMenu = new JButton("Main Menu");
+        this.mainMenu.addActionListener(this.listener);
+        this.mainMenu.setBorder(null);
+        this.mainMenu.setOpaque(true);
+        this.rulesPart2= new JButton("Next");
+        this.rulesPart2.addActionListener(this.listener);
+        this.rulesPart2.setBorder(null);
+        this.rulesPart2.setOpaque(true);
+        this.buttonPanel.add(mainMenu,BorderLayout.SOUTH);
+        this.buttonPanel.add(rulesPart2,BorderLayout.CENTER);
+       // this.buttonPanel.add(new JPanel(),"East"); // Panel vacio para evitar la extencion del boton
+
+        this.backgroundPanel.add(buttonPanel);
         getContentPane().add(backgroundPanel);
     }
     /**
@@ -85,10 +105,26 @@ public class vGameRules extends JFrame {
         });
     }
 
-    /**
-     * inner class that extends an Adapter Class or implements Listeners used by GUI class
-     */
-    private class listener {
 
+    private class listener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getSource()==vGameRules.this.mainMenu){
+                GUI vGUI = new GUI();
+                vGUI.setVisible(true);
+                dispose();
+            }
+            if(e.getSource()==vGameRules.this.rulesPart2){
+                vGameRulesPart2 part2Rules = null;
+                try {
+                    part2Rules = new vGameRulesPart2();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                part2Rules.setVisible(true);
+                dispose();
+            }
+        }
     }
 }

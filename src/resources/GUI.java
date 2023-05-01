@@ -1,11 +1,13 @@
 package resources;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -19,11 +21,11 @@ import javax.swing.JFrame;
  */
 public class GUI extends JFrame {
 
-    public ImageIcon principalBackgroundImage;
+    public Image principalBackgroundImage;
     public JLabel backgroundImage;
     private JButton startGame,gameRules;
     private Header headerProject;
-    public JPanel containerButtonsV1,ventana;
+    public JPanel containerButtonsV1, backgroundPanel;
 
    /*public void paint(Graphics g){
         Dimension dimension=this.getSize();
@@ -63,25 +65,58 @@ public class GUI extends JFrame {
      * create Listener and control Objects used for the GUI class
      */
     private void initGUI() {
+        this.backgroundPanel =new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (principalBackgroundImage != null) {
+                    //int x = (getWidth()-backgroundTest.getWidth(null))/2;
+                    //int y = (getHeight()-backgroundTest.getHeight(null))/2;
+                    g.drawImage(principalBackgroundImage, 0, 0, getWidth(), getHeight(), null);
+                }
 
+            }
+        };
+        backgroundPanel.setPreferredSize(new Dimension(1400,1080));
+
+        //Creacion de hilo
+
+        Thread hilo= new Thread(){
+            @Override
+            public void run(){
+                try {
+                    principalBackgroundImage= ImageIO.read(getClass().getResource("/resources/Fondo.jpg"));
+                    backgroundPanel.repaint();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        hilo.start();
         this.listener = new Listener();
 
-
+        this.containerButtonsV1 = new JPanel();
+        this.containerButtonsV1.setLayout(new BorderLayout());
 
         this.startGame = new JButton("START GAME");
-        this.startGame.setOpaque(true);
-        this.startGame.setBorder(null);
-        this.startGame.setBounds(700,450,100,30);
+        this.startGame.addActionListener(this.listener);
+        this.startGame.setOpaque(false);
+        this.startGame.setBorderPainted(false);
+        this.startGame.setContentAreaFilled(false);
+        //this.startGame.setBounds(700,450,100,30);
 
 
         this.gameRules = new JButton("GAME RULES");
+        this.gameRules.addActionListener(this.listener);
         this.gameRules.setOpaque(true);
         this.gameRules.setBorder(null);
-        this.gameRules.setBounds(700,500,100,30);
+        //this.gameRules.setBounds(700,500,100,30);
+        //containerButtonsV1.setPreferredSize(new Dimension(1400,1080));
+        this.containerButtonsV1.add(this.startGame,"Center");
+        this.containerButtonsV1.add(this.gameRules,"South");
+        this.backgroundPanel.add(containerButtonsV1);
+        getContentPane().add(backgroundPanel);
+        //getContentPane().setLayout(null);
 
-        getContentPane().setLayout(null);
-        getContentPane().add(startGame);
-        getContentPane().add(gameRules);
 
 
        /* this.ventana= new JPanel();
@@ -98,8 +133,7 @@ public class GUI extends JFrame {
         this.containerButtonsV1.add(this.backgroundImage);
         this.ventana.add(this.containerButtonsV1, BorderLayout.SOUTH);
         */
-        this.gameRules.addActionListener(this.listener);
-        this.startGame.addActionListener(this.listener);
+
 
         //setContentPane(ventana);
 
