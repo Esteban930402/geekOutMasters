@@ -22,10 +22,8 @@ import javax.swing.JFrame;
 public class GUI extends JFrame {
 
     public Image principalBackgroundImage;
-    public JLabel backgroundImage;
     private JButton startGame,gameRules;
-    private Header headerProject;
-    public JPanel containerButtonsV1, backgroundPanel;
+    public JPanel containerButtonsV1, backgroundPanel, vacio;
 
    /*public void paint(Graphics g){
         Dimension dimension=this.getSize();
@@ -65,12 +63,12 @@ public class GUI extends JFrame {
      * create Listener and control Objects used for the GUI class
      */
     private void initGUI() {
-        this.backgroundPanel =new JPanel() {
+
+
+        backgroundPanel =new JPanel(){
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 if (principalBackgroundImage != null) {
-                    //int x = (getWidth()-backgroundTest.getWidth(null))/2;
-                    //int y = (getHeight()-backgroundTest.getHeight(null))/2;
                     g.drawImage(principalBackgroundImage, 0, 0, getWidth(), getHeight(), null);
                 }
 
@@ -92,53 +90,36 @@ public class GUI extends JFrame {
             }
         };
         hilo.start();
-        this.listener = new Listener();
 
-        this.containerButtonsV1 = new JPanel();
-        this.containerButtonsV1.setLayout(new BorderLayout());
+        listener = new Listener();
+        vacio=new JPanel();
+        backgroundPanel.setLayout(new BorderLayout());
+        containerButtonsV1 = new JPanel();
+        //this.containerButtonsV1.setLayout(new BorderLayout());
 
-        this.startGame = new JButton("START GAME");
-        this.startGame.addActionListener(this.listener);
-        this.startGame.setOpaque(false);
-        this.startGame.setBorderPainted(false);
-        this.startGame.setContentAreaFilled(false);
+
+        startGame = new JButton("START GAME");
+        startGame.addActionListener(listener);
+        startGame.setOpaque(false);
+        startGame.setBorderPainted(false);
+        startGame.setContentAreaFilled(false);
         //this.startGame.setBounds(700,450,100,30);
 
 
-        this.gameRules = new JButton("GAME RULES");
-        this.gameRules.addActionListener(this.listener);
-        this.gameRules.setOpaque(true);
-        this.gameRules.setBorder(null);
+        gameRules = new JButton("GAME RULES");
+        gameRules.addActionListener(listener);
+        gameRules.setOpaque(false);
+        gameRules.setBorder(null);
+        gameRules.setContentAreaFilled(false);
         //this.gameRules.setBounds(700,500,100,30);
         //containerButtonsV1.setPreferredSize(new Dimension(1400,1080));
-        this.containerButtonsV1.add(this.startGame,"Center");
-        this.containerButtonsV1.add(this.gameRules,"South");
-        this.backgroundPanel.add(containerButtonsV1);
+        containerButtonsV1.add(startGame);
+        containerButtonsV1.add(gameRules);
+        //this.add(containerButtonsV1,BorderLayout.SOUTH);      //  backgroundPanel.add(containerButtonsV1,BorderLayout.CENTER);
+       backgroundPanel.add(containerButtonsV1,BorderLayout.SOUTH);
         getContentPane().add(backgroundPanel);
         //getContentPane().setLayout(null);
-
-
-
-       /* this.ventana= new JPanel();
-        this.containerButtonsV1=new JPanel();
-
-        this.ventana.setLayout(new BorderLayout());
-        this.principalBackgroundImage = new ImageIcon("/resources/Fondo.jpg");
-        this.backgroundImage = new JLabel(principalBackgroundImage);
-       // this.ventana.add(backgroundImage,BorderLayout.CENTER);
-
-
-        this.containerButtonsV1.add(this.gameRules);
-        this.containerButtonsV1.add(this.startGame);
-        this.containerButtonsV1.add(this.backgroundImage);
-        this.ventana.add(this.containerButtonsV1, BorderLayout.SOUTH);
-        */
-
-
-        //setContentPane(ventana);
-
     }
-
     /**
      * Main process of the Java program
      * @param args Object used in order to send input data from command line when

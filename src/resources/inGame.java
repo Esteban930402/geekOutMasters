@@ -3,6 +3,8 @@ package resources;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 /**
@@ -14,7 +16,16 @@ public class inGame extends JFrame {
 
 
     public JPanel ventana,dadosActivos,dadosInactivos,puntaje,dadosUtilizados;
-    public Image imageInactivos,imageActivos,imagePuntaje,imageUtilizados;
+    public Image imageInactivos,imageActivos,imagePuntaje,imageUtilizados, backgroundImage;
+
+
+
+    public JButton dado1,dado2,dado3,dado4,dado5,dado6,dado7;
+
+    public listener listener;
+    public CardLayout cardLayout;
+
+
     /**
      * Constructor of GUI class
      */
@@ -39,7 +50,8 @@ public class inGame extends JFrame {
         //Set up JFrame Container's Layout
         //Create Listener Object and Control Object
         //Set up JComponents
-        setLayout(new GridLayout(4,4));
+
+        setLayout(new GridLayout(4, 4));
 
 
         this.imageInactivos = new ImageIcon("/resources/dadosInactivos.jpg").getImage();
@@ -48,21 +60,59 @@ public class inGame extends JFrame {
 
 
         this.ventana = new JPanel();
-        ventana.setLayout(new GridLayout(2,2));
-        this.dadosActivos=new JPanel();
-        try {
-            imageActivos= ImageIO.read(new File("/resources/dadosActivos.jpg"));
-        } catch (Exception e){
-            System.out.println("Error"+e.getMessage());
-        }
+        ventana.setLayout(new GridLayout(2, 2));
+
+        this.dadosActivos = new JPanel();
+        dadosActivos.setLayout(new GridLayout(4, 4));
+        dado1 = new JButton("1");
+        dado1.setBackground(Color.BLUE);
+        dado2 = new JButton("2");
+        dado2.setBackground(Color.red);
+        dado3 = new JButton("3");
+        dado3.setBackground(Color.BLACK);
+        dado4 = new JButton("4");
+        dado4.setBackground(Color.CYAN);
+        dado5 = new JButton("5");
+        dado5.setBackground(Color.DARK_GRAY);
+        dado6 = new JButton("6");
+        dado6.setBackground(Color.green);
+        dado7 = new JButton("7");
+        dado7.setBackground(Color.MAGENTA);
+        dadosActivos.add(new JPanel());//Espacios en blanco
+        dadosActivos.add(new JPanel());
+        dadosActivos.add(new JPanel());
+        dadosActivos.add(new JPanel());
+        dadosActivos.add(new JPanel());
+        dadosActivos.add(dado1);
+        dadosActivos.add(dado2);
+        dadosActivos.add(dado3);
+        dadosActivos.add(dado4);
+        dadosActivos.add(dado5);
+        dadosActivos.add(dado6);
+        dadosActivos.add(dado7);
+        dadosActivos.add(new JPanel());//Espacios en blanco
+        dadosActivos.add(new JPanel());
+        dadosActivos.add(new JPanel());
+        dadosActivos.add(new JPanel());
+        dadosActivos.add(new JPanel());
         //dadosActivos.setBackground(Color.BLACK);
+
+        cardLayout = new CardLayout();
+
         this.dadosInactivos= new JPanel();
+
         dadosInactivos.setBackground(Color.white);
         this.puntaje = new JPanel();
         puntaje.setBackground(Color.red);
         this.dadosUtilizados=new JPanel();
-        dadosUtilizados.setBackground(Color.BLUE);
+        dadosUtilizados.setLayout(new GridLayout(4,4));
+        //dadosUtilizados.setBackground(Color.BLUE);
+        Component component = dadosActivos.getComponent(0);
 
+        dadosUtilizados.add(component);
+
+        dadosActivos.revalidate();
+        dadosUtilizados.revalidate();
 
         this.ventana.add(this.dadosActivos);
         this.ventana.add(this.dadosInactivos);
@@ -93,8 +143,14 @@ public class inGame extends JFrame {
     /**
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
-    private class Escucha {
 
+
+    private class listener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
     }
 }
 
