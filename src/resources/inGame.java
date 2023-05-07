@@ -30,8 +30,9 @@ public class inGame extends JFrame {
      * Constructor of GUI class
      */
     public inGame(){
-        initGUI();
         setIconImage(new ImageIcon(getClass().getResource("/resources/Imagen1.png")).getImage());
+        initGUI();
+
         //Default JFrame configuration
         this.setTitle("Geek Out Masters");
         this.setSize(1400,1080);
@@ -53,16 +54,13 @@ public class inGame extends JFrame {
 
         setLayout(new GridLayout(4, 4));
 
-
         this.imageInactivos = new ImageIcon("/resources/dadosInactivos.jpg").getImage();
         this.imagePuntaje = new ImageIcon("/resources/marcadorPuntaje.jpg").getImage();
         this.imageUtilizados = new ImageIcon("/resources/dadosUtilizados.jpg").getImage();
-
-
         this.ventana = new JPanel();
         ventana.setLayout(new GridLayout(2, 2));
 
-        this.dadosActivos = new JPanel();
+        this.dadosActivos = new JPanel();//  Pnael dados activos
         dadosActivos.setLayout(new GridLayout(4, 4));
         dado1 = new JButton("1");
         dado1.setBackground(Color.BLUE);
@@ -99,15 +97,17 @@ public class inGame extends JFrame {
 
         cardLayout = new CardLayout();
 
-        this.dadosInactivos= new JPanel();
+        this.dadosInactivos= new JPanel(); // panel dados inactivos
 
         dadosInactivos.setBackground(Color.white);
-        this.puntaje = new JPanel();
+        this.puntaje = new JPanel(); // panel puntaje
         puntaje.setBackground(Color.red);
-        this.dadosUtilizados=new JPanel();
+        this.dadosUtilizados=new JPanel(); // panel dados utilizados
         dadosUtilizados.setLayout(new GridLayout(4,4));
         //dadosUtilizados.setBackground(Color.BLUE);
         Component component = dadosActivos.getComponent(0);
+        dadosUtilizados.setOpaque(false);
+        dadosUtilizados.setBorder(null);
 
         dadosUtilizados.add(component);
 
@@ -120,6 +120,8 @@ public class inGame extends JFrame {
         this.ventana.add(this.dadosUtilizados);
 
         setContentPane(ventana);
+
+
 
     }
 
@@ -152,6 +154,8 @@ public class inGame extends JFrame {
 
         }
     }
+
+
 }
 
 
