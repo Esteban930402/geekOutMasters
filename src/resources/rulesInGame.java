@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
  * @autor Esteban Andres Espinosa Aragon (espinosa.esteban@correounivalle.edu.co
  * @version v.1.0.0 date:30/04/2023
  */
-public class vGameRules extends JFrame {
+public class rulesInGame extends JFrame {
 
     public Image backgroundTest;
     public JPanel backgroundPanel,buttonPanel;
@@ -29,7 +29,7 @@ public class vGameRules extends JFrame {
     /**
      * Constructor of GUI class
      */
-    public vGameRules(){
+    public rulesInGame(){
         initGUIRules();
         setIconImage(new ImageIcon(getClass().getResource("/resources/Imagen1.png")).getImage());
         //Default JFrame configuration
@@ -39,7 +39,7 @@ public class vGameRules extends JFrame {
         this.setResizable(false);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     /**
@@ -79,17 +79,14 @@ public class vGameRules extends JFrame {
         this.listener = new listener();
         this.buttonPanel = new JPanel();
         this.buttonPanel.setLayout(new BorderLayout());
-        this.mainMenu = new JButton("Main Menu");
-        this.mainMenu.addActionListener(this.listener);
-        this.mainMenu.setBorder(null);
-        this.mainMenu.setOpaque(true);
+
         this.rulesPart2= new JButton("Next");
         this.rulesPart2.addActionListener(this.listener);
         this.rulesPart2.setBorder(null);
         this.rulesPart2.setOpaque(true);
-        this.buttonPanel.add(mainMenu,BorderLayout.SOUTH);
+
         this.buttonPanel.add(rulesPart2,BorderLayout.CENTER);
-       // this.buttonPanel.add(new JPanel(),"East"); // Panel vacio para evitar la extencion del boton
+        // this.buttonPanel.add(new JPanel(),"East"); // Panel vacio para evitar la extencion del boton
 
         this.backgroundPanel.add(buttonPanel);
         getContentPane().add(backgroundPanel);
@@ -110,19 +107,15 @@ public class vGameRules extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource()==vGameRules.this.mainMenu){
-                GUI vGUI = new GUI();
-                vGUI.setVisible(true);
-                dispose();
-            }
-            if(e.getSource()==vGameRules.this.rulesPart2){
-                vGameRulesPart2 rulesPart2 = null;
+
+            if(e.getSource()==rulesInGame.this.rulesPart2){
+                rulesInGamePart2 rules2 = null;
                 try {
-                    rulesPart2 = new vGameRulesPart2();
+                    rules2 = new rulesInGamePart2();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-                rulesPart2.setVisible(true);
+                rules2.setVisible(true);
                 dispose();
             }
 

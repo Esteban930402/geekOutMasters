@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class vGameRulesPart2 extends JFrame {
+public class rulesInGamePart2 extends JFrame {
 
     public JPanel backgroundPanelRules2,buttonPanel;
     public JButton mainMenu, rulesPart1;
@@ -18,8 +18,8 @@ public class vGameRulesPart2 extends JFrame {
     public Image backgroundRulesPart2;
 
     public listener listener;
-    public vGameRulesPart2() throws IOException {
-        initGUIRulesPart2();
+    public rulesInGamePart2() throws IOException {
+        initGUIRulesInGamePart2();
         setIconImage(new ImageIcon(getClass().getResource("/resources/Imagen1.png")).getImage());
         //Default JFrame configuration
         this.setTitle("Geek Out Masters");
@@ -28,10 +28,10 @@ public class vGameRulesPart2 extends JFrame {
         this.setResizable(false);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       // this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    private void initGUIRulesPart2() throws IOException {
+    private void initGUIRulesInGamePart2() throws IOException {
 
         backgroundPanelRules2= new JPanel(){
             protected void paintComponent(Graphics g){
@@ -62,17 +62,13 @@ public class vGameRulesPart2 extends JFrame {
 
         listener = new listener();
 
-        this.mainMenu = new JButton("Main menu");
-        this.mainMenu.addActionListener(this.listener);
-        this.mainMenu.setOpaque(true);
-        this.mainMenu.setBorder(null);
 
-        this.rulesPart1= new JButton();
-        this.mainMenu.addActionListener(this.listener);
+
+        this.rulesPart1= new JButton("Back");
+        rulesPart1.addActionListener(listener);
         this.rulesPart1.setOpaque(true);
         this.rulesPart1.setBorder(null);
 
-        this.buttonPanel.add(mainMenu,"Center");
         this.buttonPanel.add(rulesPart1,"South");
 
         this.backgroundPanelRules2.add(buttonPanel);
@@ -84,16 +80,12 @@ public class vGameRulesPart2 extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(e.getSource()==vGameRulesPart2.this.mainMenu){
-                GUI mainMenu = new GUI();
-                mainMenu.setVisible(true);
+            if(e.getSource()==rulesInGamePart2.this.rulesPart1){
+                rulesInGame rulesInGame1 = new rulesInGame();
+                rulesInGame1.setVisible(true);
                 dispose();
             }
-            if(e.getSource()==vGameRulesPart2.this.rulesPart1){
-                vGameRules gameRules = new vGameRules();
-                gameRules.setVisible(true);
-                dispose();
-            }
+
         }
     }
 }

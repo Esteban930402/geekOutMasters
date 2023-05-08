@@ -1,5 +1,10 @@
 package resources;
 
+/**
+ * This class is used for ...
+ * @autor Esteban Andres Espinosa Aragon (espinosa.esteban@correounivalle.edu.co
+ * @version v.1.0.0 date:30/04/2023
+ */
 public class modelDices {
 
     private dices dice1,dice2,dice3,dice4,dice5,dice6,dice7,dice8,dice9,dice10;
@@ -34,6 +39,10 @@ public class modelDices {
         caras[7]=dice8.getDicesValue();
         caras[8]=dice9.getDicesValue();
         caras[9]=dice10.getDicesValue();
+    }
+
+    public int[] getCaras(){
+        return caras;
     }
 
 }
