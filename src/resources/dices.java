@@ -10,9 +10,21 @@ import java.util.Random;
 public class dices {
     private  int dicesValue;
 
+    private int relanzar;
+
+    private String power;
+
+    public dices() {
+    }
+
     public int getDicesValue(){
         Random randomValue = new Random();
         dicesValue = randomValue.nextInt(6)+1;
         return dicesValue;
+    }
+    public int getRelanzar(){
+        Random random = new Random();
+        relanzar= random.nextInt(6)+1;
+        return relanzar;
     }
 }
