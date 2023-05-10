@@ -23,7 +23,7 @@ public class rulesInGamePart2 extends JFrame {
         setIconImage(new ImageIcon(getClass().getResource("/resources/Imagen1.png")).getImage());
         //Default JFrame configuration
         this.setTitle("Geek Out Masters");
-        this.setSize(1400,1080);
+        this.setSize(1000,700);
         //this.pack();
         this.setResizable(false);
         this.setVisible(true);
@@ -42,7 +42,7 @@ public class rulesInGamePart2 extends JFrame {
             }
         };
 
-        backgroundPanelRules2.setPreferredSize(new Dimension(1400,1080));
+        backgroundPanelRules2.setPreferredSize(new Dimension(1000,700));
 
         Thread hilo= new Thread(){
             @Override

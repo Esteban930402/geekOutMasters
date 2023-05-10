@@ -15,10 +15,10 @@ import java.io.File;
 public class inGame extends JFrame {
 
 
-    public JPanel ventana, dadosActivos, dadosInactivos, puntaje, dadosUtilizados, containerButton, containerInGame;
+    public JPanel ventana, dadosActivos, dadosInactivos, puntaje, dadosUtilizados, containerButton, containerInGame; //Creacion de paneles, Ventana: contenedor principal donde se almacenaran los contenedores activos, inactivos el area de puntaje, dados utilizados, y el contenedores de botones
     public ImageIcon imageDices;
 
-    public JButton[] dados;
+    public JButton[] dados;// Creacion array de dados
     public JButton rules, lanzarDados, terminarRonda;
     public listener listener;
     public boolean clickCount=true;
@@ -50,7 +50,7 @@ public class inGame extends JFrame {
      * This method is used to set up the default JComponent Configuration,
      * create Listener and control Objects used for the GUI class
      */
-    private void initGUI() {
+    private void initGUI() {//Inicializacion de componentes,adiccion de botones y asignacion de metodos
         //Set up JFrame Container's Layout
         //Create Listener Object and Control Object
         //Set up JComponents
@@ -121,8 +121,8 @@ public class inGame extends JFrame {
                 dados[i].setBorderPainted(false);
                 dados[i].setIcon(imageDices);
                 dadosActivos.add(dados[i]);
-                dados[i].addMouseListener(listener);
-                dados[i].addActionListener(listener);
+                //dados[i].addMouseListener(listener);
+                //dados[i].addActionListener(listener);
             } else if (i > 6) {
                 dados[i] = new JButton();
                 dados[i].setOpaque(false);
@@ -130,8 +130,8 @@ public class inGame extends JFrame {
                 dados[i].setBorderPainted(false);
                 dados[i].setIcon(imageDices);
                 dadosInactivos.add(dados[i]);
-                dados[i].addMouseListener(listener);
-                dados[i].addActionListener(listener);
+                //dados[i].addMouseListener(listener);
+                //dados[i].addActionListener(listener);
             }
         }
 
@@ -154,7 +154,7 @@ public class inGame extends JFrame {
     /**
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
-    public void activarInactivos() {
+    public void activarInactivos() { //Activa los dados inactivos
 
         Component[] components = dadosInactivos.getComponents();
 
@@ -167,7 +167,7 @@ public class inGame extends JFrame {
         }
         System.out.println("Activa Inactivos");
     }
-    public void desactivarInactivos() {
+    public void desactivarInactivos() { //Desactiva los dados Inactivos
 
         Component[] components = dadosInactivos.getComponents();
 
@@ -180,7 +180,7 @@ public class inGame extends JFrame {
         }
         System.out.println("Desactiva inactivos");
     }
-    public void activarActivos() {
+    public void activarActivos() { //Activa los dados Activos
 
         Component[] components = dadosActivos.getComponents();
 
@@ -193,7 +193,7 @@ public class inGame extends JFrame {
         }
         System.out.println("Activa activos");
     }
-    public void desactivarActivos() {
+    public void desactivarActivos() { //Desactiva los dados activos
 
         Component[] components = dadosActivos.getComponents();
 
@@ -206,51 +206,51 @@ public class inGame extends JFrame {
         }
         System.out.println("Desactiva dados activos");
     }
-    public void contardados(){
-        int count =0;
-        int puntaje=0;
-        for (Component comp : dadosActivos.getComponents()){
-            if (comp instanceof JButton){
-                JButton button = (JButton) comp;
-                if(button.getText().contains("3"));
-                count++;
+    public void contardados(){ //Contador de caras 42 y dragones en el panel de dados activos
+
+        int cantidadDadosActivos=0;
+        for (int i = 0; i < dados.length; i++) {
+            // Verificar si la cara del dado no es 4 ni 2
+            if (caras[i] != 4 && caras[i] != 2 && dadosActivos.isAncestorOf(dados[i])) {
+                cantidadDadosActivos++;
+                System.out.println(cantidadDadosActivos);
             }
         }
-        switch (count){
+        switch (cantidadDadosActivos){
             case 1:
-                puntaje=1;
+                cantidadDadosActivos=1;
                 break;
             case 2:
-                puntaje=3;
+                cantidadDadosActivos=3;
                 break;
             case 3:
-                puntaje=6;
+                cantidadDadosActivos=6;
                 break;
             case 4:
-                puntaje=10;
+                cantidadDadosActivos=10;
                 break;
             case 5:
-                puntaje=15;
+                cantidadDadosActivos=15;
                 break;
             case 6:
-                puntaje=21;
+                cantidadDadosActivos=21;
                 break;
             case 7:
-                puntaje=28;
+                cantidadDadosActivos=28;
                 break;
             case 8:
-                puntaje=36;
+                cantidadDadosActivos=36;
                 break;
             case 9:
-                puntaje=45;
+                cantidadDadosActivos=45;
                 break;
             case 10:
-                puntaje=55;
+                cantidadDadosActivos=55;
                 break;
         }
-        System.out.println(puntaje);
+        System.out.println(cantidadDadosActivos);
     }
-    public void acomodarPartida(){
+    public void acomodarPartida(){//Acomoda la partida reseteando todos los datos para empezar una nueva ronda
         dadosActivos.removeAll();
         dadosInactivos.removeAll();
         dadosUtilizados.removeAll();
@@ -275,9 +275,10 @@ public class inGame extends JFrame {
                 dados[i].setBorder(null);
                 dados[i].setBorderPainted(false);
                 dadosInactivos.add(dados[i]);
-                desactivarInactivos();
             }
         }
+        activarActivos();
+        desactivarInactivos();
     }
     private class listener implements ActionListener, MouseListener {
 
@@ -285,7 +286,7 @@ public class inGame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (e.getSource() == inGame.this.lanzarDados) {
+            if (e.getSource() == inGame.this.lanzarDados) { //Si el evento obtenido es lanzar dados inicia el juego, asigna la cara correspondiente a cada uno de los dados
                 lanzarDados.setEnabled(false);
                 terminarRonda.setEnabled(true);
                 acomodarPartida();
@@ -312,18 +313,19 @@ public class inGame extends JFrame {
                 }
 
             }
-            if (e.getSource()==inGame.this.terminarRonda){
+            if (e.getSource()==inGame.this.terminarRonda){ //Termina la ronda y cuenta el puntaje obtenido segun la cantidad de dados con cara 42 o dragon que se encuentren en el panel de dados activos
                 lanzarDados.setEnabled(true);
                 contardados();
                 acomodarPartida();
             }
-            if (e.getSource()==inGame.this.rules){
+            if (e.getSource()==inGame.this.rules){ //Abre una nueva ventana para ver las reglas mientras se esta en juego
                 rulesInGame rules1 = new rulesInGame();
                 rules1.setVisible(true);
             }
         }
 
         @Override
+        //Evento cuando el mouse se presiona, este evento utiliza el booleano clickCount para realizar una validacion de clicks, en este caso cuando se encuentra en true es porque el programa esta a la espera del primer click por parte del jugador, dependiendo de este ejeccuta una accion, y cuando se encuentra en False esta a la espera del segundo click en donde se ejecutara la accion del dado seleccionado en el primer click
         public void mouseClicked(MouseEvent e) {
 
             for (int i = 0;i<10;i++){

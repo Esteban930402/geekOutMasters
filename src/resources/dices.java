@@ -7,6 +7,8 @@ import java.util.Random;
  * @autor Esteban Andres Espinosa Aragon (espinosa.esteban@correounivalle.edu.co
  * @version v.1.0.0 date:30/04/2023
  */
+
+
 public class dices {
     private  int dicesValue;
 
@@ -17,12 +19,12 @@ public class dices {
     public dices() {
     }
 
-    public int getDicesValue(){
+    public int getDicesValue(){// Obtiene valores aleatorios
         Random randomValue = new Random();
         dicesValue = randomValue.nextInt(6)+1;
         return dicesValue;
     }
-    public int getRelanzar(){
+    public int getRelanzar(){ //Relanza un dado
         Random random = new Random();
         relanzar= random.nextInt(6)+1;
         return relanzar;

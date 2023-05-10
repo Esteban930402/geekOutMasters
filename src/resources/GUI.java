@@ -144,12 +144,12 @@ public class GUI extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (e.getSource()== GUI.this.gameRules) {
+            if (e.getSource()== GUI.this.gameRules) { // Al presionar el boton Game Rules se abre una nueva ventana para ver las reglas del juego y una pequeña explicacion
                 vGameRules vGameRules1 = new vGameRules();
                 vGameRules1.setVisible(true);
                 dispose();
             }
-            if (e.getSource()==GUI.this.startGame){
+            if (e.getSource()==GUI.this.startGame){ //Inicia el juego
                 inGame vInGame = new inGame();
                 vInGame.setVisible(true);
                 dispose();
