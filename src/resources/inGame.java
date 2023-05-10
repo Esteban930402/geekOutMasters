@@ -154,6 +154,58 @@ public class inGame extends JFrame {
     /**
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
+    public void activarInactivos() {
+
+        Component[] components = dadosInactivos.getComponents();
+
+        for (Component component : components) {
+            if (component instanceof JButton) {
+                JButton button = (JButton) component;
+                button.addMouseListener(listener);
+                button.setEnabled(true);
+            }
+        }
+        System.out.println("Activa Inactivos");
+    }
+    public void desactivarInactivos() {
+
+        Component[] components = dadosInactivos.getComponents();
+
+        for (Component component : components) {
+            if (component instanceof JButton) {
+                JButton button = (JButton) component;
+                button.removeMouseListener(listener);
+                button.setEnabled(false);
+            }
+        }
+        System.out.println("Desactiva inactivos");
+    }
+    public void activarActivos() {
+
+        Component[] components = dadosActivos.getComponents();
+
+        for (Component component : components) {
+            if (component instanceof JButton) {
+                JButton button = (JButton) component;
+                button.addMouseListener(listener);
+                button.setEnabled(true);
+            }
+        }
+        System.out.println("Activa activos");
+    }
+    public void desactivarActivos() {
+
+        Component[] components = dadosActivos.getComponents();
+
+        for (Component component : components) {
+            if (component instanceof JButton) {
+                JButton button = (JButton) component;
+                button.removeMouseListener(listener);
+                button.setEnabled(false);
+            }
+        }
+        System.out.println("Desactiva dados activos");
+    }
     public void contardados(){
         int count =0;
         int puntaje=0;
@@ -223,6 +275,7 @@ public class inGame extends JFrame {
                 dados[i].setBorder(null);
                 dados[i].setBorderPainted(false);
                 dadosInactivos.add(dados[i]);
+                desactivarInactivos();
             }
         }
     }
@@ -236,7 +289,6 @@ public class inGame extends JFrame {
                 lanzarDados.setEnabled(false);
                 terminarRonda.setEnabled(true);
                 acomodarPartida();
-                dadosInactivos.setEnabled(false);
                 for (int i = 0; i < 10; i++) {
                     caras[i] = prueba.getDicesValue();
                     imageDices = new ImageIcon(getClass().getResource("/resources/" + caras[i] + ".png"));
@@ -277,20 +329,20 @@ public class inGame extends JFrame {
             for (int i = 0;i<10;i++){
                 if(e.getSource()==dados[i]) {
                     if (clickCount == true) {
-                        if (caras[i] == 1) {
+                        if (caras[i] == 3) {
                             dadosActivos.remove(dados[i]);
                             dadosUtilizados.add(dados[i]);
                             dados[i].setEnabled(false);
                             dadosActivos.revalidate();
                             dadosActivos.repaint();
-                            numeroAccion = 1;
+                            numeroAccion = 3;
                             clickCount = false;
                             //caras[i]=7-caras[i];
                             //imageDices = new ImageIcon(getClass().getResource("/resources/" + caras[i] + ".png"));
                             //dados[i].setIcon(imageDices);
                         }
                         if (caras[i] == 4) {
-                            dadosActivos.setEnabled(false);
+                            //dadosActivos.setEnabled(false);
                             dadosActivos.remove(dados[i]);
                             dadosUtilizados.add(dados[i]);
                             dados[i].setEnabled(false);
@@ -300,6 +352,7 @@ public class inGame extends JFrame {
                             dadosInactivos.repaint();
                             numeroAccion = 4;
                             clickCount = false;
+                            System.out.println("Entro");
 
                         }
                         if (caras[i] == 5) {
@@ -315,25 +368,33 @@ public class inGame extends JFrame {
                             dadosActivos.remove(dados[i]);
                             dadosUtilizados.add(dados[i]);
                             dados[i].setEnabled(false);
+                            desactivarActivos();
+                            activarInactivos();
                             dadosActivos.revalidate();
                             dadosActivos.repaint();
+                            dadosInactivos.revalidate();
+                            dadosInactivos.repaint();
                             numeroAccion=6;
                             clickCount = false;
                         }
 
                         System.out.println("Se presiono el boton " + i + " y: " + caras[i] + "Estado: " + clickCount);
 
-                    } else {
+                    } else  {
                         if (e.getSource() == dados[i] && numeroAccion == 5) {
                             caras[i]=7-caras[i];
                             imageDices = new ImageIcon(getClass().getResource("/resources/" + caras[i] + ".png"));
                             dados[i].setIcon(imageDices);
+                            dadosActivos.repaint();
+                            dadosActivos.revalidate();
                             clickCount=true;
                             numeroAccion=0;
                         }
                         if (e.getSource() == dados[i] && numeroAccion == 6) {
                             dados[i].setEnabled(false);
-                            dadosInactivos.add(dados[i]);
+                            dadosActivos.add(dados[i]);
+                            activarActivos();
+                            desactivarInactivos();
                             dadosActivos.repaint();
                             dadosActivos.revalidate();
                             dadosInactivos.repaint();
@@ -341,7 +402,7 @@ public class inGame extends JFrame {
                             clickCount=true;
                             numeroAccion=0;
                         }
-                        if (e.getSource() == dados[i] && numeroAccion == 1) {
+                        if (e.getSource() == dados[i] && numeroAccion == 3) {
                             caras[i]=prueba.getRelanzar();
                             imageDices = new ImageIcon(getClass().getResource("/resources/" + caras[i] + ".png"));
                             dados[i].setIcon(imageDices);
@@ -358,8 +419,9 @@ public class inGame extends JFrame {
 
                            }*/
                         if (e.getSource() == dados[i] && numeroAccion == 4) {
-                            dadosActivos.add(dados[i]);
-                            dadosInactivos.remove(dados[i]);
+                            dadosInactivos.add(dados[i]);
+                            dadosActivos.remove(dados[i]);
+                            desactivarInactivos();
                             dadosActivos.repaint();
                             dadosActivos.revalidate();
                             dadosInactivos.revalidate();
@@ -369,6 +431,7 @@ public class inGame extends JFrame {
                             dadosInactivos.removeMouseListener(this);
                             clickCount=true;
                             numeroAccion=0;
+                            System.out.println("Entro 2");
 
                         }
 
@@ -398,8 +461,6 @@ public class inGame extends JFrame {
 
         @Override
         public void mouseExited(MouseEvent e) {
-
         }
     }
-
 }
