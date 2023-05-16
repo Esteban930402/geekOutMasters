@@ -23,6 +23,8 @@ public class inGame extends JFrame {
     public listener listener;
     public boolean clickCount=true;
     int numeroAccion=0;
+    int ronda=0;
+    int score=0;
     public modelDices modelDices;
 
     public dices prueba;
@@ -209,48 +211,64 @@ public class inGame extends JFrame {
     public void contardados(){ //Contador de caras 42 y dragones en el panel de dados activos
 
         int cantidadDadosActivos=0;
+        int cantidad42=0;
+        int cantidadDragones=0;
         for (int i = 0; i < dados.length; i++) {
             // Verificar si la cara del dado no es 4 ni 2
-            if (caras[i] != 4 && caras[i] != 2 && dadosActivos.isAncestorOf(dados[i])) {
+            if (caras[i] != 1 && caras[i] != 2 && dadosActivos.isAncestorOf(dados[i])) {
                 cantidadDadosActivos++;
-                System.out.println(cantidadDadosActivos);
+            }
+            if (caras[i] == 1 && dadosActivos.isAncestorOf(dados[i])) {
+                cantidad42++;
+            }
+            if (caras[i] == 2 && dadosActivos.isAncestorOf(dados[i])) {
+                cantidadDragones++;
             }
         }
-        switch (cantidadDadosActivos){
-            case 1:
-                cantidadDadosActivos=1;
-                break;
-            case 2:
-                cantidadDadosActivos=3;
-                break;
-            case 3:
-                cantidadDadosActivos=6;
-                break;
-            case 4:
-                cantidadDadosActivos=10;
-                break;
-            case 5:
-                cantidadDadosActivos=15;
-                break;
-            case 6:
-                cantidadDadosActivos=21;
-                break;
-            case 7:
-                cantidadDadosActivos=28;
-                break;
-            case 8:
-                cantidadDadosActivos=36;
-                break;
-            case 9:
-                cantidadDadosActivos=45;
-                break;
-            case 10:
-                cantidadDadosActivos=55;
-                break;
+        if (cantidadDadosActivos==0){
+            terminarRonda.setEnabled(true);
+            if (cantidad42>0){
+                switch (cantidad42){
+                    case 1:
+                        score=1;
+                        break;
+                    case 2:
+                        score=3;
+                        break;
+                    case 3:
+                        score=6;
+                        break;
+                    case 4:
+                        score=10;
+                        break;
+                    case 5:
+                        score=15;
+                        break;
+                    case 6:
+                        score=21;
+                        break;
+                    case 7:
+                        score=28;
+                        break;
+                    case 8:
+                        score=36;
+                        break;
+                    case 9:
+                        score=45;
+                        break;
+                    case 10:
+                        score=55;
+                        break;
+                }
+
+            }
+            if (cantidadDragones>0){
+                score=0;
+            }
         }
-        System.out.println(cantidadDadosActivos);
     }
     public void acomodarPartida(){//Acomoda la partida reseteando todos los datos para empezar una nueva ronda
+        numeroAccion=0;
         dadosActivos.removeAll();
         dadosInactivos.removeAll();
         dadosUtilizados.removeAll();
@@ -288,7 +306,7 @@ public class inGame extends JFrame {
 
             if (e.getSource() == inGame.this.lanzarDados) { //Si el evento obtenido es lanzar dados inicia el juego, asigna la cara correspondiente a cada uno de los dados
                 lanzarDados.setEnabled(false);
-                terminarRonda.setEnabled(true);
+                terminarRonda.setEnabled(false);
                 acomodarPartida();
                 for (int i = 0; i < 10; i++) {
                     caras[i] = prueba.getDicesValue();
@@ -317,6 +335,7 @@ public class inGame extends JFrame {
                 lanzarDados.setEnabled(true);
                 contardados();
                 acomodarPartida();
+                System.out.println(score);
             }
             if (e.getSource()==inGame.this.rules){ //Abre una nueva ventana para ver las reglas mientras se esta en juego
                 rulesInGame rules1 = new rulesInGame();
@@ -391,6 +410,7 @@ public class inGame extends JFrame {
                             dadosActivos.revalidate();
                             clickCount=true;
                             numeroAccion=0;
+                            contardados();
                         }
                         if (e.getSource() == dados[i] && numeroAccion == 6) {
                             dados[i].setEnabled(false);
@@ -403,6 +423,7 @@ public class inGame extends JFrame {
                             dadosInactivos.revalidate();
                             clickCount=true;
                             numeroAccion=0;
+                            contardados();
                         }
                         if (e.getSource() == dados[i] && numeroAccion == 3) {
                             caras[i]=prueba.getRelanzar();
@@ -410,7 +431,7 @@ public class inGame extends JFrame {
                             dados[i].setIcon(imageDices);
                             clickCount=true;
                             numeroAccion=0;
-
+                            contardados();
                         }
                            /*if (e.getSource() == dados[i] && numeroAccion == 2) {
 
@@ -433,8 +454,7 @@ public class inGame extends JFrame {
                             dadosInactivos.removeMouseListener(this);
                             clickCount=true;
                             numeroAccion=0;
-                            System.out.println("Entro 2");
-
+                            contardados();
                         }
 
                     }
