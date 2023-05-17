@@ -16,14 +16,16 @@ public class inGame extends JFrame {
 
 
     public JPanel ventana, dadosActivos, dadosInactivos, puntaje, dadosUtilizados, containerButton, containerInGame; //Creacion de paneles, Ventana: contenedor principal donde se almacenaran los contenedores activos, inactivos el area de puntaje, dados utilizados, y el contenedores de botones
-    public ImageIcon imageDices;
+    public ImageIcon imageDices,imageBackground;
+    public JLabel labelBackground;
 
     public JButton[] dados;// Creacion array de dados
     public JButton rules, lanzarDados, terminarRonda;
+    public JTextArea gameScore, ronda;
+    public int cantidadDeRondas;
     public listener listener;
     public boolean clickCount=true;
     int numeroAccion=0;
-    int ronda=0;
     int score=0;
     public modelDices modelDices;
 
@@ -56,8 +58,14 @@ public class inGame extends JFrame {
         //Set up JFrame Container's Layout
         //Create Listener Object and Control Object
         //Set up JComponents
+        imageBackground = new ImageIcon("/resources/backgroundInGame.jpg");
+        labelBackground = new JLabel(imageBackground);
+        labelBackground.setBounds(0,0,getWidth(),getHeight());
+
         modelDices = new modelDices();
         listener = new listener();
+        gameScore = new JTextArea();
+        ronda = new JTextArea();
 
 
         prueba = new dices();
@@ -95,6 +103,10 @@ public class inGame extends JFrame {
         dadosInactivos.setLayout(new GridLayout(3, 3));
 
         this.puntaje = new JPanel(); // panel puntaje
+        gameScore.setText("Puntaje : "+score);
+        ronda.setText("Ronda numero : "+cantidadDeRondas);
+        gameScore.setEditable(false);
+        ronda.setEditable(false);
         puntaje.setBorder(BorderFactory.createTitledBorder("Puntaje"));
 
 
@@ -109,31 +121,31 @@ public class inGame extends JFrame {
         this.ventana.add(containerInGame, BorderLayout.CENTER);
         this.ventana.add(containerButton, BorderLayout.SOUTH);
 
+
         this.containerInGame.add(this.dadosActivos);
         this.containerInGame.add(this.dadosInactivos);
         this.containerInGame.add(this.puntaje);
         this.containerInGame.add(this.dadosUtilizados);
 
+        puntaje.add(gameScore);
+        puntaje.add(ronda);
+
         for (int i = 0; i < dados.length; i++) {
             imageDices = new ImageIcon(getClass().getResource("/resources/dice.png"));
             if (i < 7) {
                 dados[i] = new JButton();
-                dados[i].setOpaque(false);
+                dados[i].setOpaque(true);
                 dados[i].setBorder(null);
                 dados[i].setBorderPainted(false);
                 dados[i].setIcon(imageDices);
                 dadosActivos.add(dados[i]);
-                //dados[i].addMouseListener(listener);
-                //dados[i].addActionListener(listener);
             } else if (i > 6) {
                 dados[i] = new JButton();
-                dados[i].setOpaque(false);
+                dados[i].setOpaque(true);
                 dados[i].setBorder(null);
                 dados[i].setBorderPainted(false);
                 dados[i].setIcon(imageDices);
                 dadosInactivos.add(dados[i]);
-                //dados[i].addMouseListener(listener);
-                //dados[i].addActionListener(listener);
             }
         }
 
@@ -267,8 +279,13 @@ public class inGame extends JFrame {
             }
         }
     }
+    public void finalizarRonda(){
+
+    }
     public void acomodarPartida(){//Acomoda la partida reseteando todos los datos para empezar una nueva ronda
         numeroAccion=0;
+        clickCount=true;
+        terminarRonda.setEnabled(false);
         dadosActivos.removeAll();
         dadosInactivos.removeAll();
         dadosUtilizados.removeAll();
@@ -278,25 +295,25 @@ public class inGame extends JFrame {
         dadosInactivos.repaint();
         dadosUtilizados.revalidate();
         dadosUtilizados.repaint();
+        ronda.repaint();
+        ronda.revalidate();
 
         for (int i = 0; i < dados.length; i++) {
             imageDices = new ImageIcon(getClass().getResource("/resources/dice.png"));
             if (i < 7) {
                 dados[i].setIcon(imageDices);
-                dados[i].setOpaque(false);
+                dados[i].setOpaque(true);
                 dados[i].setBorder(null);
                 dados[i].setBorderPainted(false);
                 dadosActivos.add(dados[i]);
             } else if (i > 6) {
                 dados[i].setIcon(imageDices);
-                dados[i].setOpaque(false);
+                dados[i].setOpaque(true);
                 dados[i].setBorder(null);
                 dados[i].setBorderPainted(false);
                 dadosInactivos.add(dados[i]);
             }
         }
-        activarActivos();
-        desactivarInactivos();
     }
     private class listener implements ActionListener, MouseListener {
 
@@ -308,11 +325,16 @@ public class inGame extends JFrame {
                 lanzarDados.setEnabled(false);
                 terminarRonda.setEnabled(false);
                 acomodarPartida();
+                desactivarInactivos();
+                activarActivos();
+                dadosActivos.repaint();
+                dadosActivos.revalidate();
+                dadosInactivos.repaint();
                 for (int i = 0; i < 10; i++) {
                     caras[i] = prueba.getDicesValue();
                     imageDices = new ImageIcon(getClass().getResource("/resources/" + caras[i] + ".png"));
                     dados[i].setIcon(imageDices);
-                    dados[i].addMouseListener(new MouseAdapter() {
+                   /* dados[i].addMouseListener(new MouseAdapter() {
 
                         @Override
                         public void mousePressed(MouseEvent e) {
@@ -327,7 +349,7 @@ public class inGame extends JFrame {
                         public void mouseClicked(MouseEvent e) {
                             super.mouseClicked(e);
                         }
-                    });
+                    });*/
                 }
 
             }
@@ -336,6 +358,17 @@ public class inGame extends JFrame {
                 contardados();
                 acomodarPartida();
                 System.out.println(score);
+                cantidadDeRondas++ ;
+                gameScore.setText("Puntaje : "+score);
+                ronda.setText("Ronda numero : "+cantidadDeRondas);
+                desactivarInactivos();
+                desactivarActivos();
+                dadosActivos.repaint();
+                dadosActivos.revalidate();
+                dadosInactivos.repaint();
+                dadosInactivos.revalidate();
+                puntaje.revalidate();
+                puntaje.repaint();
             }
             if (e.getSource()==inGame.this.rules){ //Abre una nueva ventana para ver las reglas mientras se esta en juego
                 rulesInGame rules1 = new rulesInGame();
@@ -358,9 +391,6 @@ public class inGame extends JFrame {
                             dadosActivos.repaint();
                             numeroAccion = 3;
                             clickCount = false;
-                            //caras[i]=7-caras[i];
-                            //imageDices = new ImageIcon(getClass().getResource("/resources/" + caras[i] + ".png"));
-                            //dados[i].setIcon(imageDices);
                         }
                         if (caras[i] == 4) {
                             //dadosActivos.setEnabled(false);
@@ -408,9 +438,9 @@ public class inGame extends JFrame {
                             dados[i].setIcon(imageDices);
                             dadosActivos.repaint();
                             dadosActivos.revalidate();
-                            clickCount=true;
                             numeroAccion=0;
-                            contardados();
+                            clickCount=true;
+                            //contardados();
                         }
                         if (e.getSource() == dados[i] && numeroAccion == 6) {
                             dados[i].setEnabled(false);
@@ -421,17 +451,17 @@ public class inGame extends JFrame {
                             dadosActivos.revalidate();
                             dadosInactivos.repaint();
                             dadosInactivos.revalidate();
-                            clickCount=true;
                             numeroAccion=0;
-                            contardados();
+                            clickCount=true;
+                            //contardados();
                         }
                         if (e.getSource() == dados[i] && numeroAccion == 3) {
-                            caras[i]=prueba.getRelanzar();
+                            caras[i]=prueba.getDicesValue();
                             imageDices = new ImageIcon(getClass().getResource("/resources/" + caras[i] + ".png"));
                             dados[i].setIcon(imageDices);
-                            clickCount=true;
                             numeroAccion=0;
-                            contardados();
+                            clickCount=true;
+                            //contardados();
                         }
                            /*if (e.getSource() == dados[i] && numeroAccion == 2) {
 
@@ -451,12 +481,11 @@ public class inGame extends JFrame {
                             dadosInactivos.repaint();
                             dadosActivos.setEnabled(true);
                             dadosInactivos.setEnabled(false);
-                            dadosInactivos.removeMouseListener(this);
-                            clickCount=true;
                             numeroAccion=0;
-                            contardados();
+                            clickCount=true;
+                            //contardados();
                         }
-
+                        contardados();
                     }
 
                 }
